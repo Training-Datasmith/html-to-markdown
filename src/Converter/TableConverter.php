@@ -31,7 +31,7 @@ class TableConverter implements ConverterInterface, PreConverterInterface, Confi
     private $columnAlignments = [];
 
     /** @var string|null */
-    private $caption = null;
+    private $caption;
 
     public function preConvert(ElementInterface $element): void
     {

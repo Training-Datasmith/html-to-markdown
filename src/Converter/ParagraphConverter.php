@@ -41,9 +41,8 @@ class ParagraphConverter implements ConverterInterface
     {
         $line = $this->escapeFirstCharacters($line);
         $line = $this->escapeOtherCharacters($line);
-        $line = $this->escapeOtherCharactersRegex($line);
 
-        return $line;
+        return $this->escapeOtherCharactersRegex($line);
     }
 
     private function escapeFirstCharacters(string $line): string

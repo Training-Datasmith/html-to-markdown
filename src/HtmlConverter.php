@@ -264,7 +264,7 @@ class HtmlConverter implements HtmlConverterInterface
      *
      * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): self
     {
         $config = $this->getConfig();
 

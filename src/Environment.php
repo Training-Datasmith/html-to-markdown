@@ -57,11 +57,7 @@ final class Environment
 
     public function getConverterByTag(string $tag): ConverterInterface
     {
-        if (isset($this->converters[$tag])) {
-            return $this->converters[$tag];
-        }
-
-        return $this->converters[DefaultConverter::DEFAULT_CONVERTER];
+        return $this->converters[$tag] ?? $this->converters[DefaultConverter::DEFAULT_CONVERTER];
     }
 
     /**
