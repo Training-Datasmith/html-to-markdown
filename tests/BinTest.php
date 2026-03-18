@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace League\HTMLToMarkdown\Test;
 
-use PHPUnit\Framework\TestCase;
 use mikehaertl\shellcommand\Command;
+use PHPUnit\Framework\TestCase;
 
 class BinTest extends TestCase
 {
