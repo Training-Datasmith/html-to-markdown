@@ -112,10 +112,10 @@ class HtmlConverter implements HtmlConverterInterface
     {
         $document = new \DOMDocument();
 
-        if ($this->getConfig()->getOption('suppress_errors')) {
-            // Suppress conversion errors (from http://bit.ly/pCCRSX)
-            \libxml_use_internal_errors(true);
-        }
+        $suppressErrors = $this->getConfig()->getOption('suppress_errors');
+        // Save and restore the previous libxml error handling state to avoid
+        // altering global PHP process state for other libraries.
+        $previousLibxmlState = $suppressErrors ? \libxml_use_internal_errors(true) : null;
 
         // Hack to load utf-8 HTML (from http://bit.ly/pVDyCt)
         $document->loadHTML('<?xml encoding="UTF-8">' . $html);
@@ -123,8 +123,9 @@ class HtmlConverter implements HtmlConverterInterface
 
         $this->replaceMisplacedComments($document);
 
-        if ($this->getConfig()->getOption('suppress_errors')) {
+        if ($suppressErrors) {
             \libxml_clear_errors();
+            \libxml_use_internal_errors($previousLibxmlState);
         }
 
         return $document;
