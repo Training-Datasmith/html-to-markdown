@@ -1,17 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown\Converter;
 
-namespace League\HTMLToMarkdown\Converter;
-
-use League\HTMLToMarkdown\ElementInterface;
-
-interface ConverterInterface
+use League\Html_To_Markdown\Element_Interface;
+interface Converter_Interface
 {
-    public function convert(ElementInterface $element): string;
-
+    public function convert(Element_Interface $element): string;
     /**
      * @return string[]
      */
-    public function getSupportedTags(): array;
+    public function get_supported_tags(): array;
 }

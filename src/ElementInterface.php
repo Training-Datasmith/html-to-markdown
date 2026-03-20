@@ -1,50 +1,32 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown;
 
-namespace League\HTMLToMarkdown;
-
-interface ElementInterface
+interface Element_Interface
 {
-    public function isBlock(): bool;
-
-    public function isText(): bool;
-
-    public function isWhitespace(): bool;
-
-    public function getTagName(): string;
-
-    public function getValue(): string;
-
-    public function hasParent(): bool;
-
-    public function getParent(): ?ElementInterface;
-
-    public function getNextSibling(): ?ElementInterface;
-
-    public function getPreviousSibling(): ?ElementInterface;
-
+    public function is_block(): bool;
+    public function is_text(): bool;
+    public function is_whitespace(): bool;
+    public function get_tag_name(): string;
+    public function get_value(): string;
+    public function has_parent(): bool;
+    public function get_parent(): ?Element_Interface;
+    public function get_next_sibling(): ?Element_Interface;
+    public function get_previous_sibling(): ?Element_Interface;
     /**
      * @param string|string[] $tagNames
      */
-    public function isDescendantOf($tagNames): bool;
-
-    public function hasChildren(): bool;
-
+    public function is_descendant_of($tag_names): bool;
+    public function has_children(): bool;
     /**
      * @return ElementInterface[]
      */
-    public function getChildren(): array;
-
-    public function getNext(): ?ElementInterface;
-
-    public function getSiblingPosition(): int;
-
-    public function getChildrenAsString(): string;
-
-    public function setFinalMarkdown(string $markdown): void;
-
-    public function getListItemLevel(): int;
-
-    public function getAttribute(string $name): string;
+    public function get_children(): array;
+    public function get_next(): ?Element_Interface;
+    public function get_sibling_position(): int;
+    public function get_children_as_string(): string;
+    public function set_final_markdown(string $markdown): void;
+    public function get_list_item_level(): int;
+    public function get_attribute(string $name): string;
 }

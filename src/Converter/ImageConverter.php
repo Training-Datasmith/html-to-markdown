@@ -1,31 +1,26 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown\Converter;
 
-namespace League\HTMLToMarkdown\Converter;
-
-use League\HTMLToMarkdown\ElementInterface;
-
-class ImageConverter implements ConverterInterface
+use League\Html_To_Markdown\Element_Interface;
+class Image_Converter implements Converter_Interface
 {
-    public function convert(ElementInterface $element): string
+    public function convert(Element_Interface $element): string
     {
-        $src   = $element->getAttribute('src');
-        $alt   = $element->getAttribute('alt');
-        $title = $element->getAttribute('title');
-
+        $src = $element->get_attribute('src');
+        $alt = $element->get_attribute('alt');
+        $title = $element->get_attribute('title');
         if ($title !== '') {
             // No newlines added. <img> should be in a block-level element.
             return '![' . $alt . '](' . $src . ' "' . $title . '")';
         }
-
         return '![' . $alt . '](' . $src . ')';
     }
-
     /**
      * @return string[]
      */
-    public function getSupportedTags(): array
+    public function get_supported_tags(): array
     {
         return ['img'];
     }

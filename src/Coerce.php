@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace League\HTMLToMarkdown;
+declare (strict_types=1);
+namespace League\Html_To_Markdown;
 
 /**
  * @internal
@@ -12,11 +11,10 @@ final class Coerce
     private function __construct()
     {
     }
-
     /**
      * @param mixed $val
      */
-    public static function toString($val): string
+    public static function to_string($val): string
     {
         switch (true) {
             case \is_string($val):

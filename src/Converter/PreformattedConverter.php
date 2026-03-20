@@ -1,57 +1,47 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown\Converter;
 
-namespace League\HTMLToMarkdown\Converter;
-
-use League\HTMLToMarkdown\ElementInterface;
-
-class PreformattedConverter implements ConverterInterface
+use League\Html_To_Markdown\Element_Interface;
+class Preformatted_Converter implements Converter_Interface
 {
-    public function convert(ElementInterface $element): string
+    public function convert(Element_Interface $element): string
     {
-        $preContent = \html_entity_decode($element->getChildrenAsString());
-        $preContent = \preg_replace('/<pre\b[^>]*>/', '', $preContent);
-        \assert($preContent !== null);
-        $preContent = \str_replace('</pre>', '', $preContent);
-
+        $pre_content = \html_entity_decode($element->get_children_as_string());
+        $pre_content = \preg_replace('/<pre\b[^>]*>/', '', $pre_content);
+        \assert($pre_content !== null);
+        $pre_content = \str_replace('</pre>', '', $pre_content);
         /*
          * Checking for the code tag.
          * Usually pre tags are used along with code tags. This conditional will check for already converted code tags,
          * which use backticks, and if those backticks are at the beginning and at the end of the string it means
          * there's no more information to convert.
          */
-
-        $firstBacktick = \strpos(\trim($preContent), '`');
-        $lastBacktick  = \strrpos(\trim($preContent), '`');
-        if ($firstBacktick === 0 && $lastBacktick === \strlen(\trim($preContent)) - 1) {
-            return $preContent . "\n\n";
+        $first_backtick = \strpos(\trim($pre_content), '`');
+        $last_backtick = \strrpos(\trim($pre_content), '`');
+        if ($first_backtick === 0 && $last_backtick === \strlen(\trim($pre_content)) - 1) {
+            return $pre_content . "\n\n";
         }
-
         // If the execution reaches this point it means it's just a pre tag, with no code tag nested
-
         // Empty lines are a special case
-        if ($preContent === '') {
+        if ($pre_content === '') {
             return "```\n```\n\n";
         }
-
         // Normalizing new lines
-        $preContent = \preg_replace('/\r\n|\r|\n/', "\n", $preContent);
-        \assert(\is_string($preContent));
-
+        $pre_content = \preg_replace('/\r\n|\r|\n/', "\n", $pre_content);
+        \assert(\is_string($pre_content));
         // Ensure there's a newline at the end
-        if (\strrpos($preContent, "\n") !== \strlen($preContent) - \strlen("\n")) {
-            $preContent .= "\n";
+        if (\strrpos($pre_content, "\n") !== \strlen($pre_content) - \strlen("\n")) {
+            $pre_content .= "\n";
         }
-
         // Use three backticks
-        return "```\n" . $preContent . "```\n\n";
+        return "```\n" . $pre_content . "```\n\n";
     }
-
     /**
      * @return string[]
      */
-    public function getSupportedTags(): array
+    public function get_supported_tags(): array
     {
         return ['pre'];
     }

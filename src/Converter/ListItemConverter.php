@@ -1,70 +1,56 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown\Converter;
 
-namespace League\HTMLToMarkdown\Converter;
-
-use League\HTMLToMarkdown\Coerce;
-use League\HTMLToMarkdown\Configuration;
-use League\HTMLToMarkdown\ConfigurationAwareInterface;
-use League\HTMLToMarkdown\ElementInterface;
-
-class ListItemConverter implements ConverterInterface, ConfigurationAwareInterface
+use League\Html_To_Markdown\Coerce;
+use League\Html_To_Markdown\Configuration;
+use League\Html_To_Markdown\Configuration_Aware_Interface;
+use League\Html_To_Markdown\Element_Interface;
+class List_Item_Converter implements Converter_Interface, Configuration_Aware_Interface
 {
     /** @var Configuration */
     protected $config;
-
     /** @var string|null */
-    protected $listItemStyle;
-
-    public function setConfig(Configuration $config): void
+    protected $list_item_style;
+    public function set_config(Configuration $config): void
     {
         $this->config = $config;
     }
-
-    public function convert(ElementInterface $element): string
+    public function convert(Element_Interface $element): string
     {
         // If parent is an ol, use numbers, otherwise, use dashes
-        $listType = ($parent = $element->getParent()) ? $parent->getTagName() : 'ul';
-
+        $list_type = ($parent = $element->get_parent()) ? $parent->get_tag_name() : 'ul';
         // Add spaces to start for nested list items
-        $level = $element->getListItemLevel();
-
-        $value = \trim(\implode("\n" . '    ', \explode("\n", \trim($element->getValue()))));
-
+        $level = $element->get_list_item_level();
+        $value = \trim(\implode("\n" . '    ', \explode("\n", \trim($element->get_value()))));
         // If list item is the first in a nested list, add a newline before it
         $prefix = '';
-        if ($level > 0 && $element->getSiblingPosition() === 1) {
+        if ($level > 0 && $element->get_sibling_position() === 1) {
             $prefix = "\n";
         }
-
-        if ($listType === 'ul') {
-            $listItemStyle          = Coerce::toString($this->config->getOption('list_item_style', '-'));
-            $listItemStyleAlternate = Coerce::toString($this->config->getOption('list_item_style_alternate', ''));
-            if (! isset($this->listItemStyle)) {
-                $this->listItemStyle = $listItemStyleAlternate ?: $listItemStyle;
+        if ($list_type === 'ul') {
+            $list_item_style = Coerce::to_string($this->config->get_option('list_item_style', '-'));
+            $list_item_style_alternate = Coerce::to_string($this->config->get_option('list_item_style_alternate', ''));
+            if (!isset($this->list_item_style)) {
+                $this->list_item_style = $list_item_style_alternate ?: $list_item_style;
             }
-
-            if ($listItemStyleAlternate && $level === 0 && $element->getSiblingPosition() === 1) {
-                $this->listItemStyle = $this->listItemStyle === $listItemStyle ? $listItemStyleAlternate : $listItemStyle;
+            if ($list_item_style_alternate && $level === 0 && $element->get_sibling_position() === 1) {
+                $this->list_item_style = $this->list_item_style === $list_item_style ? $list_item_style_alternate : $list_item_style;
             }
-
-            return $prefix . $this->listItemStyle . ' ' . $value . "\n";
+            return $prefix . $this->list_item_style . ' ' . $value . "\n";
         }
-
-        if ($listType === 'ol' && ($parent = $element->getParent()) && ($start = \intval($parent->getAttribute('start')))) {
-            $number = $start + $element->getSiblingPosition() - 1;
+        if ($list_type === 'ol' && ($parent = $element->get_parent()) && $start = \intval($parent->get_attribute('start'))) {
+            $number = $start + $element->get_sibling_position() - 1;
         } else {
-            $number = $element->getSiblingPosition();
+            $number = $element->get_sibling_position();
         }
-
         return $prefix . $number . '. ' . $value . "\n";
     }
-
     /**
      * @return string[]
      */
-    public function getSupportedTags(): array
+    public function get_supported_tags(): array
     {
         return ['li'];
     }

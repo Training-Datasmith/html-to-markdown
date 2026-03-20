@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace League\HTMLToMarkdown;
+declare (strict_types=1);
+namespace League\Html_To_Markdown;
 
 /**
  * Interface for an HTML-to-Markdown converter.
@@ -13,7 +12,7 @@ namespace League\HTMLToMarkdown;
  *
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  */
-interface HtmlConverterInterface
+interface Html_Converter_Interface
 {
     /**
      * Convert the given $html to Markdown

@@ -1,53 +1,43 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown\Converter;
 
-namespace League\HTMLToMarkdown\Converter;
-
-use League\HTMLToMarkdown\Configuration;
-use League\HTMLToMarkdown\ConfigurationAwareInterface;
-use League\HTMLToMarkdown\ElementInterface;
-
-class CommentConverter implements ConverterInterface, ConfigurationAwareInterface
+use League\Html_To_Markdown\Configuration;
+use League\Html_To_Markdown\Configuration_Aware_Interface;
+use League\Html_To_Markdown\Element_Interface;
+class Comment_Converter implements Converter_Interface, Configuration_Aware_Interface
 {
     /** @var Configuration */
     protected $config;
-
-    public function setConfig(Configuration $config): void
+    public function set_config(Configuration $config): void
     {
         $this->config = $config;
     }
-
-    public function convert(ElementInterface $element): string
+    public function convert(Element_Interface $element): string
     {
-        if ($this->shouldPreserve($element)) {
-            return '<!--' . $element->getValue() . '-->';
+        if ($this->should_preserve($element)) {
+            return '<!--' . $element->get_value() . '-->';
         }
-
         return '';
     }
-
     /**
      * @return string[]
      */
-    public function getSupportedTags(): array
+    public function get_supported_tags(): array
     {
         return ['#comment'];
     }
-
-    private function shouldPreserve(ElementInterface $element): bool
+    private function should_preserve(Element_Interface $element): bool
     {
-        $preserve = $this->config->getOption('preserve_comments');
+        $preserve = $this->config->get_option('preserve_comments');
         if ($preserve === true) {
             return true;
         }
-
         if (\is_array($preserve)) {
-            $value = \trim($element->getValue());
-
+            $value = \trim($element->get_value());
             return \in_array($value, $preserve, true);
         }
-
         return false;
     }
 }

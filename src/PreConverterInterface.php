@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown;
 
-namespace League\HTMLToMarkdown;
-
-interface PreConverterInterface
+interface Pre_Converter_Interface
 {
-    public function preConvert(ElementInterface $element): void;
+    public function pre_convert(Element_Interface $element): void;
 }

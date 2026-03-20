@@ -1,47 +1,38 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown\Converter;
 
-namespace League\HTMLToMarkdown\Converter;
-
-use League\HTMLToMarkdown\ElementInterface;
-
-class TextConverter implements ConverterInterface
+use League\Html_To_Markdown\Element_Interface;
+class Text_Converter implements Converter_Interface
 {
-    public function convert(ElementInterface $element): string
+    public function convert(Element_Interface $element): string
     {
-        $markdown = $element->getValue();
-
+        $markdown = $element->get_value();
         // Remove leftover \n at the beginning of the line
         $markdown = \ltrim($markdown, "\n");
-
         // Replace sequences of invisible characters with spaces
         $markdown = \preg_replace('~\s+~u', ' ', $markdown);
         \assert(\is_string($markdown));
-
         // Escape the following characters: '*', '_', '[', ']' and '\'
-        if (($parent = $element->getParent()) && $parent->getTagName() !== 'div') {
-            $markdown = \preg_replace('~([*_\\[\\]\\\\])~u', '\\\\$1', $markdown);
+        if (($parent = $element->get_parent()) && $parent->get_tag_name() !== 'div') {
+            $markdown = \preg_replace('~([*_\[\]\\\\])~u', '\\\\$1', $markdown);
             \assert(\is_string($markdown));
         }
-
         $markdown = \preg_replace('~^#~u', '\\\\#', $markdown);
         \assert(\is_string($markdown));
-
         if ($markdown === ' ') {
-            $next = $element->getNext();
-            if (! $next || $next->isBlock()) {
+            $next = $element->get_next();
+            if (!$next || $next->is_block()) {
                 $markdown = '';
             }
         }
-
         return \htmlspecialchars($markdown, ENT_NOQUOTES, 'UTF-8');
     }
-
     /**
      * @return string[]
      */
-    public function getSupportedTags(): array
+    public function get_supported_tags(): array
     {
         return ['#text'];
     }

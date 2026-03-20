@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace League\Html_To_Markdown;
 
-namespace League\HTMLToMarkdown;
-
-interface ConfigurationAwareInterface
+interface Configuration_Aware_Interface
 {
-    public function setConfig(Configuration $config): void;
+    public function set_config(Configuration $config): void;
 }
