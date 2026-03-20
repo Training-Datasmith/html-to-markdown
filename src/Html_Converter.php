@@ -58,10 +58,21 @@ class Html_Converter implements Html_Converter_Interface
             $this->environment->get_config()->merge($options);
         }
     }
+    /**
+     * Returns the current Environment instance.
+     *
+     * @return Environment The configured Environment with all converters and options.
+     */
     public function get_environment(): Environment
     {
         return $this->environment;
     }
+
+    /**
+     * Returns the current Configuration object from the Environment.
+     *
+     * @return Configuration The active configuration with all conversion options.
+     */
     public function get_config(): Configuration
     {
         return $this->environment->get_config();
@@ -201,6 +212,16 @@ class Html_Converter implements Html_Converter_Interface
         $converter = $this->environment->get_converter_by_tag($tag);
         return $converter->convert($element);
     }
+    /**
+     * Sanitize the raw Markdown string output by removing unwanted wrapper tags and entities.
+     *
+     * Strips the XML encoding declaration, DOCTYPE, html/body/head wrapper tags added by
+     * DOMDocument, and decodes HTML entities. Trims leading and trailing whitespace and
+     * control characters.
+     *
+     * @param  string $markdown Raw Markdown output from DOMDocument::save_html().
+     * @return string           Cleaned Markdown string.
+     */
     protected function sanitize(string $markdown): string
     {
         $markdown = \html_entity_decode($markdown, ENT_QUOTES, 'UTF-8');
