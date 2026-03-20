@@ -2,7 +2,10 @@
     "name": "league/html-to-markdown",
     "type": "library",
     "description": "An HTML-to-markdown conversion helper for PHP",
-    "keywords": ["markdown", "html"],
+    "keywords": [
+        "markdown",
+        "html"
+    ],
     "homepage": "https://github.com/thephpleague/html-to-markdown",
     "license": "MIT",
     "authors": [
@@ -21,12 +24,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "League\\HTMLToMarkdown\\": "src/"
+            "League\\HTML_To_Markdown\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "League\\HTMLToMarkdown\\Test\\": "tests"
+            "League\\HTML_To_Markdown\\Test\\": "tests"
         }
     },
     "require": {
@@ -42,7 +45,9 @@
         "unleashedtech/php-coding-standard": "^2.7 || ^3.0",
         "vimeo/psalm": "^4.22 || ^5.0"
     },
-    "bin": ["bin/html-to-markdown"],
+    "bin": [
+        "bin/html-to-markdown"
+    ],
     "scripts": {
         "phpcs": "phpcs",
         "phpstan": "phpstan analyse",
